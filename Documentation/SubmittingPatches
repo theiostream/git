@@ -138,14 +138,6 @@ format, or this invocation of "git show":
 
     git show -s --date=short --pretty='format:%h ("%s", %ad)' <commit>
 
-To turn that into a handy alias:
-
-    git config --global alias.git-commit-summary "show -s --date=short --pretty='format:%h (\"%s\", %ad)'"
-
-And then to get the commit summary:
-
-    git git-commit-summary <commit>
-
 (3) Generate your patch using Git tools out of your commits.
 
 Git based diff tools generate unidiff which is the preferred format.
