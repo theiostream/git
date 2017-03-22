@@ -612,8 +612,10 @@ library for your script to use.
  - test_have_prereq <prereq>
 
    Check if we have a prerequisite previously set with
-   test_set_prereq. The most common use of this directly is to skip
-   all the tests if we don't have some essential prerequisite:
+   test_set_prereq. The most common use-case for using this directly,
+   as opposed to as an argument to test_expect_*, is to skip all the
+   tests at the start of the test script if we don't have some
+   essential prerequisite:
 
 	if ! test_have_prereq PERL
 	then
