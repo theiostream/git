@@ -14,7 +14,7 @@ static int analyze_step;
  * If you sort the result, you can compare it with the other type
  * mode and verify that both single and multi produce the same set.
  */
-void dump_run(void)
+static void dump_run(void)
 {
 	struct hashmap_iter iter_dir;
 	struct hashmap_iter iter_cache;
@@ -59,7 +59,7 @@ void dump_run(void)
  * Run the single or multi threaded version "count" times and
  * report on the time taken.
  */
-uint64_t time_runs(int try_threaded)
+static uint64_t time_runs(int try_threaded)
 {
 	uint64_t t0, t1, t2;
 	uint64_t sum = 0;
@@ -108,7 +108,7 @@ uint64_t time_runs(int try_threaded)
  * Try a series of runs varying the "istate->cache_nr" and
  * try to find a good value for the multi-threaded criteria.
  */
-void analyze_run(void)
+static void analyze_run(void)
 {
 	uint64_t t1s, t1m, t2s, t2m;
 	int cache_nr_limit;
