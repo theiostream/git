@@ -271,7 +271,7 @@ static struct dir_entry *hash_dir_entry_with_parent_and_prefix(
 	 * Either we have a parent directory and path with slash(es)
 	 * or the directory is an immediate child of the root directory.
 	 */
-	assert((parent != NULL) ^ (strchr(prefix->buf, '/') == 0));
+	assert((parent != NULL) ^ (strchr(prefix->buf, '/') == NULL));
 
 	if (parent)
 		hash = memihash_cont(parent->ent.hash,
