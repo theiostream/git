@@ -5,15 +5,38 @@
 
 int cmd_main(int argc, const char **argv)
 {
+	const char **myargv = argv;
+	int myargc = argc;
+
 	struct strbuf path = STRBUF_INIT;
 	struct dir_iterator *diter;
 
-	if (argc < 2)
-		die("BUG: test-dir-iterator needs one argument");
+	unsigned flag = 0;
 
-	strbuf_add(&path, argv[1], strlen(argv[1]));
+	while (--myargc && starts_with(*++myargv, "--")) {
+		if (!strcmp(*myargv, "--pre-order"))
+			flag |= DIR_ITERATOR_PRE_ORDER_TRAVERSAL;
+		else if (!strcmp(*myargv, "--post-order"))
+			flag |= DIR_ITERATOR_POST_ORDER_TRAVERSAL;
+		else if (!strcmp(*myargv, "--list-root-dir"))
+			flag |= DIR_ITERATOR_LIST_ROOT_DIR;
+		else if (!strcmp(*myargv, "--")) {
+			myargc--;
+			myargv++;
+			break;
+		} else
+			die("Unrecognized option: %s", *myargv);
+	}
 
-	diter = dir_iterator_begin(path.buf);
+	if (myargc != 1)
+		die("expected exactly one non-option argument");
+	strbuf_addstr(&path, *myargv);
+
+	diter = dir_iterator_begin(path.buf, flag);
+	if (diter == NULL) {
+		printf("begin failed: %d\n", errno);
+		return 0;
+	}
 
 	while (dir_iterator_advance(diter) == ITER_OK) {
 		if (S_ISDIR(diter->st.st_mode))
