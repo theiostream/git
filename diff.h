@@ -188,6 +188,21 @@ struct diff_options {
 	int diff_path_counter;
 };
 
+struct diffstat_t {
+	int nr;
+	int alloc;
+	struct diffstat_file {
+		char *from_name;
+		char *name;
+		char *print_name;
+		unsigned is_unmerged:1;
+		unsigned is_binary:1;
+		unsigned is_renamed:1;
+		unsigned is_interesting:1;
+		uintmax_t added, deleted;
+	} **files;
+};
+
 enum color_diff {
 	DIFF_RESET = 0,
 	DIFF_CONTEXT = 1,
@@ -205,7 +220,6 @@ const char *diff_get_color(int diff_use_color, enum color_diff ix);
 
 
 const char *diff_line_prefix(struct diff_options *);
-
 
 extern const char mime_boundary_leader[];
 
@@ -261,6 +275,9 @@ extern void diff_change(struct diff_options *,
 			unsigned dirty_submodule1, unsigned dirty_submodule2);
 
 extern struct diff_filepair *diff_unmerge(struct diff_options *, const char *path);
+
+void diff_flush_stat(struct diff_filepair *p, struct diff_options *o,
+			    struct diffstat_t *diffstat);
 
 #define DIFF_SETUP_REVERSE      	1
 #define DIFF_SETUP_USE_CACHE		2
