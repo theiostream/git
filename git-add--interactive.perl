@@ -632,9 +632,7 @@ EOF
 }
 
 sub status_cmd {
-	list_and_choose({ LIST_ONLY => 1, HEADER => $status_head },
-			list_modified());
-	print "\n";
+	system(qw(git add--helper --status));
 }
 
 sub say_n_paths {
